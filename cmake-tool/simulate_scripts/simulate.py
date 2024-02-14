@@ -104,4 +104,4 @@ if __name__ == "__main__":
 
     time.sleep(delay)
 
-    subprocess.call("tput reset", shell=True)
+    #subprocess.call("tput reset", shell=True)
