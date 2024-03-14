@@ -37,6 +37,8 @@ def parse_args():
                         help="Initrd file to pass onto QEMU", default="@QEMU_SIM_INITRD_FILE@")
     parser.add_argument("-n", '--dry-run', dest='dry_run', action='store_true',
                         help="Output command for QEMU (and GDB), but do not execute it")
+    parser.add_argument("--smp", dest='qemu_sim_smp', type=str, 
+                        help="QEMU SMP Core Count", default="@QEMU_SIM_SMP@")
     parser.add_argument('--extra-qemu-args', dest='qemu_sim_extra_args', type=str,
                         help="Additional arguments to pass onto QEMU", default="@QEMU_SIM_EXTRA_ARGS@")
     parser.add_argument('--extra-cpu-opts', dest='qemu_sim_extra_cpu_opts', type=str,
@@ -77,8 +79,11 @@ if __name__ == "__main__":
 
     qemu_sim_mem_size_entry = "-m size=" + args.qemu_sim_mem_size
 
+    qemu_sim_smp_entry = "-smp cores=" + args.qemu_sim_smp 
+
     qemu_simulate_command_opts = [args.qemu_sim_binary, qemu_sim_machine_entry, qemu_sim_cpu_entry, args.qemu_sim_graphic_opt,
-                                  args.qemu_sim_serial_opt, qemu_sim_mem_size_entry, args.qemu_sim_extra_args, qemu_sim_images_entry,
+                                  args.qemu_sim_serial_opt, qemu_sim_mem_size_entry, qemu_sim_smp_entry,
+                                  args.qemu_sim_extra_args, qemu_sim_images_entry,
                                   qemu_gdbserver_command]
     qemu_simulate_command = " ".join(qemu_simulate_command_opts)
 
