@@ -29,6 +29,8 @@
 #include <platform_info.h> // this provides memory_region
 #endif
 
+#define ODROID_FREE_ADDR 0x80000000
+
 extern char _bss[];
 extern char _bss_end[];
 
@@ -590,7 +592,12 @@ int load_images(
                        "integer model mismatch");
         size_t elf_filesize = (size_t)cpio_file_size;
 
-        /* Load the file into memory. */
+#ifdef CONFIG_PLAT_ODROIDC4
+        /* If we have a large app size, don't write into the odroid's lower phys mem regions,
+        which might be used for other things */
+        next_phys_addr = ODROID_FREE_ADDR;
+#endif
+
         ret = load_elf(cpio,
                        cpio_len,
                        elf_filename,
