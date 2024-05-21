@@ -18,7 +18,7 @@ def parse_args():
     parser.add_argument('-f', '--file', dest='target_executable', type=str,
                         help='File to be passed to GDB', default='@QEMU_SIM_INITRD_FILE@')
     parser.add_argument('--extra-gdb-args', dest='extra_gdb_args', type=str,
-                        help='Additional arguments to pass to gdb', default='')
+                        help='Additional arguments to pass to gdb', default='--symbols=apps/sel4test-driver/sel4test-driver')
     args = parser.parse_args()
     return args
 
@@ -26,8 +26,10 @@ def parse_args():
 if __name__ == "__main__":
     args = parse_args()
 
-    gdb_command_opts = [args.gdb_binary, args.extra_gdb_args,
-                        '-ex "target remote :1234"', args.target_executable]
+    # original
+    # gdb_command_opts = [args.gdb_binary, args.extra_gdb_args,
+    #                     '-ex "target remote :1234"', args.target_executable]
+    gdb_command_opts = [args.gdb_binary, args.extra_gdb_args, "--exec", args.target_executable, '-ex "target remote :1234"']
     gdb_command = " ".join(gdb_command_opts)
 
     print(gdb_command)
