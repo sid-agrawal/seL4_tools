@@ -29,6 +29,8 @@
 #include <platform_info.h> // this provides memory_region
 #endif
 
+// (XXX) Linh: temp solution to load a large ELF by relocating it to an area
+//       that I'm not 100% sure should be used
 #define ODROID_FREE_ADDR 0x80000000
 
 extern char _bss[];
